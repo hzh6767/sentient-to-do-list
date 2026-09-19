@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An offline to-do list whose tasks have opinions about being completed.">
+  <meta name="theme-color" content="#f0eadf">
+  <title>Sentient To-Do List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="logo" aria-hidden="true"><span></span><span></span></div>
+      <div>
+        <p class="eyebrow">PRODUCTIVITY, NOW WITH FEELINGS</p>
+        <h1>Sentient<br>To-Do List</h1>
+      </div>
+      <p class="intro">A tiny pretend AI gives every task a personality. Your chores may negotiate, complain, and experience character growth.</p>
+    </header>
+
+    <section class="desk">
+      <form id="task-form" class="composer">
+        <div class="field wide">
+          <label for="task-input">A thing you should probably do</label>
+          <input id="task-input" name="task" maxlength="80" autocomplete="off" placeholder="Water the suspiciously dramatic plant" required>
+        </div>
+        <div class="field">
+          <label for="energy">Your available energy</label>
+          <select id="energy" name="energy">
+            <option value="crumb">one crumb</option>
+            <option value="normal" selected>socially acceptable</option>
+            <option value="turbo">forbidden turbo</option>
+          </select>
+        </div>
+        <button class="add" type="submit">AWAKEN TASK</button>
+      </form>
+
+      <div class="board-head">
+        <div>
+          <p class="mini-label">THE CONSCIOUS QUEUE</p>
+          <h2><span id="remaining">3</span> tasks are thinking about you</h2>
+        </div>
+        <div class="mood" aria-live="polite"><span id="face">•ᴗ•</span><small id="mood-text">The list feels cautiously useful.</small></div>
+      </div>
+
+      <ul id="task-list" class="task-list" aria-label="Sentient tasks"></ul>
+
+      <div class="board-actions">
+        <button id="pep-talk" class="quiet" type="button">GIVE LIST A PEP TALK</button>
+        <button id="clear-done" class="quiet" type="button">RELEASE COMPLETED TASKS</button>
+      </div>
+    </section>
+
+    <section class="transcript" aria-labelledby="transcript-title">
+      <div>
+        <p class="mini-label">MODEL MONOLOGUE</p>
+        <h2 id="transcript-title">Latest thought</h2>
+      </div>
+      <blockquote id="thought" aria-live="polite">“I have organized three responsibilities and developed one concern.”</blockquote>
+    </section>
+
+    <footer>
+      <span>LOCAL-ONLY PRETEND INTELLIGENCE</span>
+      <button id="reset" type="button">RESTORE SAMPLE CHAOS</button>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
