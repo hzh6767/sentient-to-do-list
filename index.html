@@ -39,9 +39,9 @@
       <div class="board-head">
         <div>
           <p class="mini-label">THE CONSCIOUS QUEUE</p>
-          <h2><span id="remaining">3</span> tasks are thinking about you</h2>
+          <h2><span id="remaining">3</span> <span id="remaining-label">tasks are</span> thinking about you</h2>
         </div>
-        <div class="mood" aria-live="polite"><span id="face">•ᴗ•</span><small id="mood-text">The list feels cautiously useful.</small></div>
+        <div class="mood" aria-live="polite"><span id="face" aria-hidden="true">•ᴗ•</span><small id="mood-text">The list feels cautiously useful.</small></div>
       </div>
 
       <ul id="task-list" class="task-list" aria-label="Sentient tasks"></ul>
@@ -65,6 +65,7 @@
       <button id="reset" type="button">RESTORE SAMPLE CHAOS</button>
     </footer>
   </main>
+  <script src="core.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

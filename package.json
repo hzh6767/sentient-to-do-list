@@ -1,0 +1,9 @@
+{
+  "name": "sentient-to-do-list",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Offline to-do list with a tiny pretend personality engine.",
+  "scripts": {
+    "test": "node --test tests/app.test.js"
+  }
+}

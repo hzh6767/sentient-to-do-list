@@ -1,6 +1,8 @@
 (() => {
   "use strict";
 
+  const { stableSeed, pick, openCount, moodFor, headlineLabel } = globalThis.SentientCore;
+
   const samples = [
     { title: "Reply to the message from Tuesday", energy: "normal", done: false },
     { title: "Water the suspiciously dramatic plant", energy: "crumb", done: false },
@@ -42,49 +44,34 @@
   const energy = document.querySelector("#energy");
   const list = document.querySelector("#task-list");
   const remaining = document.querySelector("#remaining");
+  const remainingLabel = document.querySelector("#remaining-label");
   const face = document.querySelector("#face");
   const moodText = document.querySelector("#mood-text");
   const thought = document.querySelector("#thought");
   let tasks = [];
   let nextId = 1;
-
-  function pick(items, seed = Math.random()) {
-    return items[Math.floor(seed * items.length) % items.length];
-  }
-
-  function stableSeed(text) {
-    let value = 19;
-    for (const character of text) value = (value * 33 + character.charCodeAt(0)) >>> 0;
-    return (value % 1000) / 1000;
-  }
+  const rows = new Map();
 
   function speak(message) {
     thought.textContent = `“${message}”`;
   }
 
   function updateMood() {
-    const open = tasks.filter((task) => !task.done).length;
-    const completed = tasks.length - open;
+    const open = openCount(tasks);
+    const mood = moodFor(tasks);
     remaining.textContent = String(open);
-    if (tasks.length === 0) {
-      face.textContent = "•_•";
-      moodText.textContent = "The list is experiencing an identity vacuum.";
-    } else if (open === 0) {
-      face.textContent = "ᵔᴗᵔ";
-      moodText.textContent = "The list has achieved suspicious inner peace.";
-    } else if (completed > open) {
-      face.textContent = "•ᴗ•";
-      moodText.textContent = "The list is impressed and hiding it badly.";
-    } else if (open >= 6) {
-      face.textContent = "•﹏•";
-      moodText.textContent = "The list would like to discuss staffing.";
-    } else {
-      face.textContent = "•ᴗ•";
-      moodText.textContent = "The list feels cautiously useful.";
-    }
+    remainingLabel.textContent = headlineLabel(open);
+    face.textContent = mood.face;
+    moodText.textContent = mood.text;
   }
 
-  function makeTaskElement(task) {
+  // Buttons resolve their task by id when clicked, so a row can outlive the
+  // task object it was originally built from (ids restart on "restore samples").
+  function findTask(id) {
+    return tasks.find((task) => task.id === id) || null;
+  }
+
+  function createTaskRow(id) {
     const item = document.createElement("li");
     const toggle = document.createElement("button");
     const copy = document.createElement("div");
@@ -94,40 +81,71 @@
     const badge = document.createElement("span");
     const remove = document.createElement("button");
 
-    item.className = `task${task.done ? " done" : ""}`;
     toggle.type = "button";
     toggle.className = "task-toggle";
     toggle.textContent = "✓";
-    toggle.setAttribute("aria-label", task.done ? `Mark ${task.title} incomplete` : `Complete ${task.title}`);
-    toggle.setAttribute("aria-pressed", String(task.done));
     copy.className = "task-copy";
-    title.textContent = task.title;
-    opinion.textContent = task.done ? task.completion : task.opinion;
     copy.append(title, opinion);
     badge.className = "badge";
-    badge.textContent = `${task.energy.toUpperCase()} ENERGY`;
     remove.type = "button";
     remove.className = "task-remove";
     remove.textContent = "dismiss";
-    remove.setAttribute("aria-label", `Dismiss ${task.title}`);
     meta.append(badge, remove);
 
     toggle.addEventListener("click", () => {
+      const task = findTask(id);
+      if (!task) return;
       task.done = !task.done;
       speak(task.done ? task.completion : `Fine. ${task.opinion}`);
       render();
     });
     remove.addEventListener("click", () => {
-      tasks = tasks.filter((candidate) => candidate.id !== task.id);
-      speak(`${task.title} has left the list to pursue other opportunities.`);
+      const index = tasks.findIndex((candidate) => candidate.id === id);
+      if (index === -1) return;
+      const neighbour = tasks[index + 1] || tasks[index - 1] || null;
+      const [leaving] = tasks.splice(index, 1);
+      speak(`${leaving.title} has left the list to pursue other opportunities.`);
       render();
+      // The focused button left with its row, so hand focus to the next task's
+      // dismiss control instead of letting it fall back to the document body.
+      const nextRow = neighbour ? rows.get(neighbour.id) : null;
+      (nextRow ? nextRow.remove : input).focus();
     });
+
     item.append(toggle, copy, meta);
-    return item;
+    return { item, toggle, title, opinion, badge, remove };
   }
 
+  function updateTaskRow(row, task) {
+    row.item.className = `task${task.done ? " done" : ""}`;
+    row.toggle.setAttribute("aria-label", task.done ? `Mark ${task.title} incomplete` : `Complete ${task.title}`);
+    row.toggle.setAttribute("aria-pressed", String(task.done));
+    row.title.textContent = task.title;
+    row.opinion.textContent = task.done ? task.completion : task.opinion;
+    row.badge.textContent = `${task.energy.toUpperCase()} ENERGY`;
+    row.remove.setAttribute("aria-label", `Dismiss ${task.title}`);
+  }
+
+  // Reconciles the existing rows in place rather than rebuilding the list, so a
+  // focused control survives every action that does not remove its own row.
   function render() {
-    list.replaceChildren(...tasks.map(makeTaskElement));
+    const present = new Set(tasks.map((task) => task.id));
+    for (const [id, row] of rows) {
+      if (!present.has(id)) {
+        row.item.remove();
+        rows.delete(id);
+      }
+    }
+    tasks.forEach((task, index) => {
+      let row = rows.get(task.id);
+      if (!row) {
+        row = createTaskRow(task.id);
+        rows.set(task.id, row);
+      }
+      updateTaskRow(row, task);
+      const occupant = list.children[index];
+      if (occupant !== row.item) list.insertBefore(row.item, occupant || null);
+    });
     updateMood();
   }
 

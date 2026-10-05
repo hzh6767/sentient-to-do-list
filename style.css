@@ -1,12 +1,12 @@
 :root {
   --paper: #f0eadf;
   --ink: #25231f;
-  --muted: #716d65;
+  --muted: #67635b;
   --line: #c9c0b2;
   --white: #fbf8f1;
-  --red: #db644d;
-  --green: #517f62;
-  --blue: #547891;
+  --red: #932e1d;
+  --green: #456e55;
+  --blue: #4c6d85;
   --yellow: #e5c45e;
 }
 
@@ -29,7 +29,7 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(2.8rem, 7vw, 5.5re
 .composer { display: grid; grid-template-columns: 1.8fr 1fr auto; gap: 12px; align-items: end; padding: 20px; border-bottom: 1px solid var(--line); background: #e8e0d3; }
 .field label { display: block; margin-bottom: 7px; color: var(--muted); font-size: .72rem; font-weight: 750; }
 .field input, .field select { width: 100%; min-height: 44px; border: 1px solid #aaa193; border-radius: 0; color: var(--ink); background: var(--white); padding: 9px 11px; }
-.field input:focus, .field select:focus, button:focus-visible { outline: 3px solid rgba(84,120,145,.45); outline-offset: 2px; }
+.field input:focus, .field select:focus, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
 .add { min-height: 44px; border: 1px solid var(--ink); padding: 0 18px; color: var(--white); background: var(--ink); font-family: ui-monospace, Consolas, monospace; font-size: .72rem; font-weight: 800; cursor: pointer; }
 .add:hover { background: var(--green); border-color: var(--green); }
 
@@ -50,7 +50,7 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(2.8rem, 7vw, 5.5re
 .task.done .task-copy strong { color: var(--muted); text-decoration: line-through; }
 .task.done .task-copy p { color: var(--green); }
 .badge { padding: 5px 7px; border: 1px solid var(--line); color: var(--blue); font-family: ui-monospace, Consolas, monospace; font-size: .61rem; font-weight: 800; white-space: nowrap; }
-.task-remove { margin-top: 8px; border: 0; color: #998f82; background: none; font-family: ui-monospace, Consolas, monospace; font-size: .65rem; cursor: pointer; }
+.task-remove { margin-top: 8px; border: 0; color: #736e64; background: none; font-family: ui-monospace, Consolas, monospace; font-size: .65rem; cursor: pointer; }
 .task-remove:hover { color: var(--red); }
 
 .board-actions { display: flex; gap: 12px; justify-content: flex-end; padding: 15px 24px 20px; border-top: 1px solid var(--line); }
@@ -59,7 +59,7 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(2.8rem, 7vw, 5.5re
 
 .transcript { display: grid; grid-template-columns: 190px 1fr; gap: 24px; align-items: center; margin-top: 18px; padding: 22px 24px; border: 1px solid var(--line); background: var(--yellow); }
 .transcript blockquote { margin: 0; font-family: Georgia, serif; font-size: clamp(1.05rem, 2.4vw, 1.45rem); line-height: 1.4; }
-footer { display: flex; justify-content: space-between; margin-top: 24px; color: #8c8478; font-family: ui-monospace, Consolas, monospace; font-size: .63rem; letter-spacing: .08em; }
+footer { display: flex; justify-content: space-between; margin-top: 24px; color: #68645a; font-family: ui-monospace, Consolas, monospace; font-size: .63rem; letter-spacing: .08em; }
 footer button { border: 0; color: var(--red); background: transparent; cursor: pointer; font-size: inherit; }
 
 @media (max-width: 750px) {
