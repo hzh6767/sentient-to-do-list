@@ -45,7 +45,7 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(2.8rem, 7vw, 5.5re
 .task-toggle { width: 27px; height: 27px; display: grid; place-items: center; border: 1px solid var(--ink); border-radius: 50%; color: transparent; background: transparent; cursor: pointer; }
 .task-toggle:hover { background: #e8e0d3; }
 .task.done .task-toggle { color: var(--white); border-color: var(--green); background: var(--green); }
-.task-copy strong { display: block; font-size: 1rem; line-height: 1.35; }
+.task-copy strong { display: block; font-size: 1rem; line-height: 1.35; overflow-wrap: anywhere; }
 .task-copy p { margin: 5px 0 0; color: var(--muted); font-family: Georgia, serif; font-size: .91rem; font-style: italic; }
 .task.done .task-copy strong { color: var(--muted); text-decoration: line-through; }
 .task.done .task-copy p { color: var(--green); }
@@ -58,7 +58,7 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(2.8rem, 7vw, 5.5re
 .quiet:hover { color: var(--red); }
 
 .transcript { display: grid; grid-template-columns: 190px 1fr; gap: 24px; align-items: center; margin-top: 18px; padding: 22px 24px; border: 1px solid var(--line); background: var(--yellow); }
-.transcript blockquote { margin: 0; font-family: Georgia, serif; font-size: clamp(1.05rem, 2.4vw, 1.45rem); line-height: 1.4; }
+.transcript blockquote { margin: 0; font-family: Georgia, serif; font-size: clamp(1.05rem, 2.4vw, 1.45rem); line-height: 1.4; overflow-wrap: anywhere; }
 footer { display: flex; justify-content: space-between; margin-top: 24px; color: #68645a; font-family: ui-monospace, Consolas, monospace; font-size: .63rem; letter-spacing: .08em; }
 footer button { border: 0; color: var(--red); background: transparent; cursor: pointer; font-size: inherit; }
 
