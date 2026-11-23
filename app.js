@@ -171,7 +171,11 @@
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const title = input.value.trim();
-    if (!title) return;
+    if (!title) {
+      input.value = "";
+      input.reportValidity();
+      return;
+    }
     const task = createTask(title, energy.value);
     tasks.unshift(task);
     speak(`New arrival: ${task.opinion}`);
